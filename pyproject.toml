@@ -1,0 +1,38 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "vm"
+version = "0.1.0"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ansible = "^5.10.0"
+jmespath = "^1.0.1"
+netaddr = "^0.8.0"
+pydantic = "^1.10.7"
+lxml = "^4.9.1"
+passlib = "^1.7.4"
+kubernetes = "^26.1.0"
+kubernetes-validate = "^1.26.0"
+pyyaml = "^6.0"
+jsonpatch = "^1.32"
+sty = "^1.0.4"
+psycopg2-binary = "^2.9.8"
+
+[tool.poetry.dev-dependencies]
+isort = "^5.10.1"
+black = "^22.8.0"
+ansible-lint = "^6.5.2"
+
+[tool.pyright]
+exclude = [
+    "3d/**",
+    ".cache/**",
+    ".vscode/**",
+    ".venv/**",
+    "**/site-packages/**",
+]

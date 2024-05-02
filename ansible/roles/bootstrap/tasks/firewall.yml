@@ -1,0 +1,25 @@
+---
+- name: Configure firewall
+  block:
+    - name: Install UFW
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+    - name: Deny everything and disable UFW
+      community.general.ufw:
+        state: disabled
+        policy: deny
+    - name: Limit ssh
+      community.general.ufw:
+        rule: limit
+        port: ssh
+        proto: tcp
+    - name: Allow tcp ports
+      community.general.ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop: "{{ bootstrap__default_tcp_ports + bootstrap__allow_tcp_ports}}"
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled

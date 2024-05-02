@@ -1,0 +1,28 @@
+---
+registry_secret:
+  name: registrypullsecret
+  data: ""
+
+postgresBackuper:
+  name: postgres-backuper
+  schedule: 0,12 * * * *
+  annotations: {}
+  resources:
+    limits:
+      memory: 256Mi
+      cpu: 200m
+    requests:
+      memory: 128Mi
+      cpu: 100m
+  image:
+    repository: ghcr.io/alexdenisova/postgres-backuper
+    pullPolicy: Always
+    tag: 16-alpine
+  env:
+    PB__BACKUP_PATH: pantry-tracker/backup.sql
+    PB__GIT_EMAIL: ""
+    PB__GIT_NAME: "Postgres Backuper"
+    PB__GIT_COMMIT_MSG: "Postgres Backup"
+  secretValues:
+    PB__GITHUB_REPO_URL: ""
+    PB__DB_URL: ""

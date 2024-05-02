@@ -1,0 +1,37 @@
+{{- with .Values.postgresBackuper -}}
+{{- $selectorLabels := dict "app.kubernetes.io/name" $.Chart.Name "app.kubernetes.io/instance" .name -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "postgres-backuper.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ .schedule }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: {{ .name }}
+          labels:
+            {{- toYaml $selectorLabels | nindent 12 }}
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: {{ $.Values.registry_secret.name }}
+          containers:
+            - name: {{ .name }}
+              image: "{{ .image.repository }}:{{ .image.tag }}"
+              imagePullPolicy: {{ .image.pullPolicy }}
+              env:
+                {{- range $k, $v := .env }}
+                - name: {{ $k }}
+                  value: "{{ $v }}"
+                {{- end }}
+              envFrom:
+                - secretRef:
+                    name: {{ .name }}
+                    optional: false
+              resources:
+                {{- toYaml .resources | nindent 16 }}
+{{- end -}}

@@ -1,0 +1,12 @@
+---
+- name: Configuration
+  tags: [bootstrap]
+  become: true
+  block:
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ bootstrap__default_packages + bootstrap__apt_packages }}"
+    - name: Configure firewall
+      ansible.builtin.import_tasks: firewall.yml

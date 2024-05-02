@@ -1,0 +1,5 @@
+---
+# Extra packages to install
+bootstrap__apt_packages: []
+# Extra open TCP ports
+bootstrap__allow_tcp_ports: []

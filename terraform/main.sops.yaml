@@ -1,0 +1,31 @@
+registry_secret: ENC[AES256_GCM,data:wXTyNT6u39GddEnniRE3/0y86I36Kx5SWXo1uJzUs51h9fb0yHG25biFF24i+QHnSJdV5pH2Sr5HFOB1SU4v7tnnTi+74qT0O+k+m1XWRn8ZavhX7Y+tf9U9M1jqE8YLPw/3FH19MuX/NAI2PpmH3EnD/3ksx9Dy98nx9tj6fVPo1DBMRcMeiGYWJi0FSxDNfZnOO4AUR1px/zQE3zInfx/RHy/jjKLoW8y01+l3yRVoKajm1sOzsrI=,iv:NF0Uo7CQT+3aNZdKycmwFkM5trd6jw4vf3htHG013+s=,tag:sRkpBhoVPX4XoTEf46Wm0g==,type:str]
+postgres_backuper_github_url: ENC[AES256_GCM,data:t+IOmYDpZZQh6J/81JhKqK+6jlY3Faaf7FtPELcQH9sqyYcivBrBguK3wfMXxRR35H4pkOTKxLnaBsbv3qGHuI1AVH2an6MrUQrBc/mGQvx+JGS+EB4hh78IT+nfb887Pb/sHdcoxFioBx8=,iv:Z6YmlORKuMFhubHsucjWLU+SY1En2ShmHSjoECjGWb8=,tag:FubK3Cx6N4uz9TnYKHVu8Q==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2024-05-02T08:47:30Z"
+    mac: ENC[AES256_GCM,data:Ew2xgcqR5CTr2thslQqt+3im3nsauA7qXC5I4mmtdr3p9psDZMdp5fXAG5P5qMX+imAhOK3E6O2SDtGvt3f1x0Cfp183W+8G5HNSr55wYAZcTbdf8toPqYuKzZFJdS3oiEx1UmdIQcCojkYzsOIkWvQpvDLaqVpnHUE+xqMeIQw=,iv:FJ7mIpPNO3mI3e3dS48tiLz6orea5UAGi2VIOWpL3mM=,tag:F4Q8kK1/NrHDd1bmaPDeFw==,type:str]
+    pgp:
+        - created_at: "2024-04-27T12:07:47Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQGMA+f+K9UQlkKAAQv8CoTZ+TZPqqXW0+VdmFwrzSxfpG9sFazlbnd7KCC8gOF9
+            d6tnFIPqdDdf0+F7GVS7kxmDLYm5lWExn9lCXwwkCtCOXKLWjgjCreBq3JNC3Elf
+            Sga8gYS6C4bloNOKkMYpH2NGnmradp1f8F4vOWR8dSCLq+RPe+JXhyTPjLmb4Bzv
+            sRBf55qFq/mNXBm+qfn0NYLIWDg24FslbLftLSGHYpVEU+hamqGmyNMZmBrShJ+7
+            E5ePinqd4Zh39u8KMkZlwWXK89RiDysh0cZqVwdx1UhQx3OwYDuJgi/ZXGr5szWV
+            zIWV6lrNUFeA1j3SQSUZh4MYK4IMLWyKu3thFuJl60Vsfc2pIV3O6jaadlYkiXSh
+            zBjunhFMSTCrb2j8dgH83T7efaoPhoOcakIojbcMQs01IYYqf28s50jYsmiNO5uR
+            7xv/AKgJTkVj9pDfNrGGwncG0i761urEDjj1AZ4j1STyMLjg3tnySuW0NnZANIhM
+            qtxRyY65nc19s0LxCKzl0l4BuWTOGDYTLFpNwd4EE/J+LDcu2YFCMG057siXEsfx
+            Jju8vjiUcwII5+6ISyvOOYzUYDn22eNuovWQH8Rgw/b1j93S//I5f+Iy8TwisQ77
+            9Naih7Y0uCYs5O0Fusk+
+            =sati
+            -----END PGP MESSAGE-----
+          fp: 9125EDE3ED604357F4370A817AB13B28EC9CD011
+    unencrypted_suffix: _unencrypted
+    version: 3.8.1

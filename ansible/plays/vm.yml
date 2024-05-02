@@ -1,0 +1,6 @@
+---
+- name: Bootstrap
+  hosts: vm
+  any_errors_fatal: true
+  roles:
+    - bootstrap

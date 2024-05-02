@@ -1,0 +1,8 @@
+---
+bootstrap__default_packages:
+  - dnsutils
+  - telnet
+
+bootstrap__default_tcp_ports:
+  - 80
+  - 443
