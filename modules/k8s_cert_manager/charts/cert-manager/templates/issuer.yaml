@@ -1,0 +1,25 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "cert-manager.issuer_name" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-1"
+spec:
+  acme:
+    # The ACME server URL
+    server: {{ .Values.acme.server }}
+    # Email address used for ACME registration
+    email: {{ .Values.acme.email }}
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    # An empty 'selector' means that this solver matches all domains
+    - selector: {}
+      http01:
+        ingress:
+          class: {{ .Values.ingress_class_name }}

@@ -1,6 +1,21 @@
+locals {
+  ingress_class = "ingress-nginx"
+}
+
 # K8s Ingress
 module "k8s_ingress_nginx_internal" {
-  source = "../modules/k8s_ingress_nginx"
+  source        = "../modules/k8s_ingress_nginx"
+  ingress_class = local.ingress_class
+}
+
+# K8s Certificate Manager
+module "k8s_cert_manager" {
+  source        = "../modules/k8s_cert_manager"
+  ingress_class = local.ingress_class
+  certificates = [{
+    name     = "pantry-tracker"
+    dns_name = "pantry-tracker.alexdenisova.ru"
+  }]
 }
 
 # K8s Redis

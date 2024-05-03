@@ -1,0 +1,9 @@
+acme:
+  server: https://acme-staging-v02.api.letsencrypt.org/directory
+  email: ""
+
+ingress_class_name: "ingress-nginx"
+
+certificates:
+  - name: pantry-tracker
+    dns_name: pantry-tracker.alexdenisova.ru
