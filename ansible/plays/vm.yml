@@ -1,6 +1,14 @@
 ---
-- name: Bootstrap
+- name: Create ssh key file
+  hosts: localhost
+  any_errors_fatal: true
+  gather_facts: false
+  roles:
+    - localhost-ssh
+
+- name: Configure VM
   hosts: vm
   any_errors_fatal: true
   roles:
     - bootstrap
+    - microk8s
