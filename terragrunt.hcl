@@ -1,5 +1,6 @@
 locals {
-  kubeconfig_path     = "${abspath("files/generated.kubeconfig")}"
+  files_dir = "${abspath("files")}"
+  kubeconfig_path = "${abspath("files/generated.kubeconfig")}"
 }
 
 generate "kubeconfig" {
@@ -14,6 +15,7 @@ generate "locals" {
   contents  = <<EOF
 locals {
   kubeconfig_path = "${local.kubeconfig_path}"
+  files_dir       = "${local.files_dir}"
 }
 EOF
 }
