@@ -1,4 +1,8 @@
 ---
+bootstrap__mount_lv: "{{ bootstrap__mount_path | replace('var/','v') | replace('/','') }}"
+bootstrap__mount_device: /dev/{{ bootstrap__mount_disk_name }}
+bootstrap__mount_partition: "{{ bootstrap__mount_device }}1"
+
 bootstrap__default_packages:
   - dnsutils
   - telnet

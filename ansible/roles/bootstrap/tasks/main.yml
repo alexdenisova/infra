@@ -3,6 +3,8 @@
   tags: [bootstrap]
   become: true
   block:
+    - name: Mount disk
+      ansible.builtin.import_tasks: mount_disk.yml
     - name: Install packages
       ansible.builtin.apt:
         name: "{{ item }}"

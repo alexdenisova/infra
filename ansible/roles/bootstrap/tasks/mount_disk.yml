@@ -1,0 +1,44 @@
+---
+- name: Mount disk
+  block:
+    - name: Ensure variables are set
+      ansible.builtin.assert:
+        that:
+          - bootstrap__mount_disk_name
+          - bootstrap__mount_path
+    - name: Create single partition on drive
+      community.general.parted:
+        device: "{{ bootstrap__mount_device }}"
+        label: gpt
+        number: 1
+        state: present
+    - name: Add drive to vg
+      community.general.lvg:
+        vg: LVG1
+        pvs:
+          - "{{ bootstrap__mount_partition }}"
+        state: present
+    - name: Extend {{ bootstrap__mount_lv }} lvol
+      community.general.lvol:
+        vg: LVG1
+        lv: "{{ bootstrap__mount_lv }}"
+        size: +100%FREE
+    - name: Resize filesystem
+      community.general.filesystem:
+        dev: /dev/mapper/LVG1-{{ bootstrap__mount_lv }}
+        fstype: ext4
+        resizefs: true
+        state: present
+    - name: Create mount dir
+      ansible.builtin.file:
+        path: "{{ bootstrap__mount_path }}"
+        owner: root
+        group: root
+        mode: 0755
+        state: directory
+    - name: Mount up device
+      ansible.posix.mount:
+        path: "{{ bootstrap__mount_path }}"
+        src: /dev/mapper/LVG1-{{ bootstrap__mount_lv }}
+        fstype: ext4
+        state: mounted
