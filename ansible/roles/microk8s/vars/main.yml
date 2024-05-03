@@ -1,0 +1,5 @@
+---
+microk8s__default_addons:
+  - prometheus
+  - helm3
+  - cert-manager

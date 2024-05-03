@@ -1,0 +1,3 @@
+---
+- name: Reload microk8s certs
+  ansible.builtin.shell: sudo /snap/bin/microk8s refresh-certs --cert server.crt

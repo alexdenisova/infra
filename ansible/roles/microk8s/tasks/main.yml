@@ -1,0 +1,30 @@
+---
+- name: Install and configure MicroK8s
+  tags: [microk8s]
+  become: true
+  block:
+    - name: Install snap
+      ansible.builtin.apt:
+        name: snapd
+        state: present
+    - name: Check that microk8s is present
+      community.general.snap:
+        name: microk8s
+        classic: true
+        channel: '1.28/stable'
+        state: present
+    - name: Add users to microk8s group
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: "microk8s"
+        append: yes
+      loop: "{{ microk8s__users }}"
+    - name: Add public ip to allowed
+      ansible.builtin.lineinfile:
+        dest: /var/snap/microk8s/current/certs/csr.conf.template
+        insertafter: "#MOREIPS"
+        line: "IP.3 = {{ inventory_hostname  }}"
+      notify: Reload microk8s certs
+    - name: Enable addons
+      ansible.builtin.shell: /snap/bin/microk8s enable {{ item }}
+      loop: "{{ microk8s__default_addons + microk8s__addons }}"
