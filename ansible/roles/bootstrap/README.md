@@ -1,6 +1,6 @@
 # bootstrap
 
-Начальная конфигурация хостa Debian/Ubuntu
+Начальная конфигурация хостa Debian/Ubuntu.
 
 ## Тэги
 
