@@ -6,7 +6,7 @@ resource "ansible_group" "all" {
   inventory_group_name = "all"
   vars = { for k, v in merge(
     {
-      ansible_ssh_private_key_file = "${local.files_dir}/generated.id_rsa"
+      ansible_ssh_private_key_file = "./files/generated.id_rsa"
       ansible_ssh_private_key      = data.sops_file.main.data["ansible_ssh_private_key"]
     },
   ) : k => yamlencode(v) }

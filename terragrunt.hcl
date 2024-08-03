@@ -15,7 +15,6 @@ generate "locals" {
   contents  = <<EOF
 locals {
   kubeconfig_path = "${local.kubeconfig_path}"
-  files_dir       = "${local.files_dir}"
 }
 EOF
 }
