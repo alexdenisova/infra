@@ -15,6 +15,9 @@ module "k8s_cert_manager" {
   certificates = [{
     name     = "pantry-tracker"
     dns_name = "pantry-tracker.alexdenisova.ru"
+    }, {
+    name     = "kettle-weigher"
+    dns_name = "kettle-weigher.alexdenisova.ru"
   }]
 }
 
