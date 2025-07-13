@@ -16,7 +16,7 @@ postgresBackuper:
       cpu: 100m
   image:
     repository: ghcr.io/alexdenisova/postgres-backuper
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     tag: 16-alpine
   env:
     PB__BACKUP_PATH: pantry-tracker/backup.sql

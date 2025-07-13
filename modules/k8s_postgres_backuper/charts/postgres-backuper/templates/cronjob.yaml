@@ -7,16 +7,18 @@ metadata:
   labels:
     {{- include "postgres-backuper.labels" $ | nindent 4 }}
 spec:
+  concurrencyPolicy: Forbid
   schedule: {{ .schedule }}
   jobTemplate:
     spec:
+      backoffLimit: 0
       template:
         metadata:
           name: {{ .name }}
           labels:
             {{- toYaml $selectorLabels | nindent 12 }}
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           imagePullSecrets:
             - name: {{ $.Values.registry_secret.name }}
           containers:
