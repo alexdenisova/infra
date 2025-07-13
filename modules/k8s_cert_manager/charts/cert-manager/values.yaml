@@ -4,6 +4,7 @@ acme:
 
 ingress_class_name: "ingress-nginx"
 
-certificates:
-  - name: pantry-tracker
-    dns_name: pantry-tracker.alexdenisova.ru
+# certificates:
+#   - name: pantry-tracker
+#     dns_name: pantry-tracker.alexdenisova.ru
+certificates: []

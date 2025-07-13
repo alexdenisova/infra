@@ -12,13 +12,6 @@ module "k8s_ingress_nginx_internal" {
 module "k8s_cert_manager" {
   source        = "../modules/k8s_cert_manager"
   ingress_class = local.ingress_class
-  certificates = [{
-    name     = "pantry-tracker"
-    dns_name = "pantry-tracker.alexdenisova.ru"
-    }, {
-    name     = "kettle-weigher"
-    dns_name = "kettle-weigher.alexdenisova.ru"
-  }]
 }
 
 # K8s Redis

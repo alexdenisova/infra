@@ -1,6 +1,6 @@
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: {{ include "cert-manager.issuer_name" . }}
   namespace: {{ .Release.Namespace }}

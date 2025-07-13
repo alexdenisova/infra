@@ -18,6 +18,7 @@ variable "certificates" {
     name     = string,
     dns_name = string,
   }))
+  default = []
 }
 
 variable "acme_email" {
