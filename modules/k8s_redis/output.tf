@@ -1,3 +1,3 @@
 output "redis_password" {
-  value = resource.random_password.redis_password.result
+  value = random_password.redis_password.result
 }

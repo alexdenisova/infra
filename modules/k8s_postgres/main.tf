@@ -2,17 +2,21 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
+      version = "~> 3.5"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.13.1"
+      version = "~> 2.13"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.29.0"
+      version = "~> 2.29"
     }
   }
+}
+
+locals {
+  postgres_run_volume = "postgresql-run"
 }
 
 
@@ -29,10 +33,10 @@ resource "random_password" "postgres_password" {
 
 resource "helm_release" "postgres" {
   name       = "postgres"
-  repository = "https://charts.bitnami.com/bitnami"
+  repository = "oci://registry-1.docker.io/bitnamicharts"
   chart      = "postgresql"
-  version    = "15.2.5"
-  namespace  = var.namespace
+  version    = "18.12.16"
+  namespace  = kubernetes_namespace.namespace.metadata[0].name
   atomic     = true
   lint       = true
   values = [
@@ -42,10 +46,15 @@ resource "helm_release" "postgres" {
           postgresql = {
             auth = {
               enablePostgresUser = true
-              postgresPassword   = resource.random_password.postgres_password.result
+              postgresPassword   = random_password.postgres_password.result
               database           = "postgres"
             }
           }
+        }
+        image = {
+          registry   = ""
+          repository = "postgres"
+          tag        = "16-alpine"
         }
         architecture = "standalone"
         primary = {
@@ -69,6 +78,14 @@ resource "helm_release" "postgres" {
               postgresql = var.port
             }
           }
+          extraVolumes = [{
+            name     = local.postgres_run_volume
+            emptyDir = {}
+          }]
+          extraVolumeMounts = [{
+            name      = local.postgres_run_volume
+            mountPath = "/var/run/postgresql"
+          }]
         }
         metrics = {
           enabled = true
@@ -78,9 +95,5 @@ resource "helm_release" "postgres" {
         }
       }
     )
-  ]
-  depends_on = [
-    kubernetes_namespace.namespace,
-    random_password.postgres_password
   ]
 }

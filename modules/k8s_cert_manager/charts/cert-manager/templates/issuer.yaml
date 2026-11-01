@@ -22,4 +22,5 @@ spec:
     - selector: {}
       http01:
         ingress:
-          class: {{ .Values.ingress_class_name }}
+          ingressClassName: {{ .Values.ingress_class_name }}
+          serviceType: ClusterIP

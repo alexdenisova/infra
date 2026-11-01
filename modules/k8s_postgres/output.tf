@@ -1,7 +1,7 @@
 output "postgres_password" {
-  value = resource.random_password.postgres_password.result
+  value = random_password.postgres_password.result
 }
 
 output "postgres_url" {
-  value = "postgresql://postgres:${resource.random_password.postgres_password.result}@postgres-postgresql.${var.namespace}:5432"
+  value = "postgresql://postgres:${random_password.postgres_password.result}@${helm_release.postgres.name}-postgresql.${var.namespace}:${var.port}"
 }

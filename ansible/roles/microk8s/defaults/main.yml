@@ -1,4 +1,6 @@
 ---
+# MicroK8s version
+microk8s__channel: 1.28/stable
 # users with permission to use microk8s
 microk8s__users: []
 # additional microk8s addons

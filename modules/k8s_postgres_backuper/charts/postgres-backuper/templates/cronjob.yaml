@@ -1,20 +1,26 @@
-{{- with .Values.postgresBackuper -}}
-{{- $selectorLabels := dict "app.kubernetes.io/name" $.Chart.Name "app.kubernetes.io/instance" .name -}}
+{{- $defaults := .Values.postgresBackuper -}}
+{{- range $name, $backup := .Values.backups }}
+{{- $fullname := include "postgres-backuper.fullname" (list $ $name) }}
+{{- $selectorLabels := dict "app.kubernetes.io/name" $.Chart.Name "app.kubernetes.io/instance" $name }}
+{{- $nameEnv := dict "PB__BACKUP_PATH" (printf "%s/backup.sql" $name) "PB__GIT_COMMIT_MSG" (printf "Postgres Backup: %s" $name) }}
+{{- $env := merge (deepCopy ($backup.env | default dict)) $nameEnv (deepCopy $defaults.env) }}
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ .name }}
+  name: {{ $fullname }}
   labels:
     {{- include "postgres-backuper.labels" $ | nindent 4 }}
+    app.kubernetes.io/instance: {{ $name }}
 spec:
   concurrencyPolicy: Forbid
-  schedule: {{ .schedule }}
+  schedule: {{ $backup.schedule | default $defaults.schedule | quote }}
   jobTemplate:
     spec:
       backoffLimit: 0
       template:
         metadata:
-          name: {{ .name }}
+          name: {{ $fullname }}
           labels:
             {{- toYaml $selectorLabels | nindent 12 }}
         spec:
@@ -22,18 +28,18 @@ spec:
           imagePullSecrets:
             - name: {{ $.Values.registry_secret.name }}
           containers:
-            - name: {{ .name }}
-              image: "{{ .image.repository }}:{{ .image.tag }}"
-              imagePullPolicy: {{ .image.pullPolicy }}
+            - name: postgres-backuper
+              image: "{{ $defaults.image.repository }}:{{ $defaults.image.tag }}"
+              imagePullPolicy: {{ $defaults.image.pullPolicy }}
               env:
-                {{- range $k, $v := .env }}
+                {{- range $k, $v := $env }}
                 - name: {{ $k }}
-                  value: "{{ $v }}"
+                  value: {{ $v | quote }}
                 {{- end }}
               envFrom:
                 - secretRef:
-                    name: {{ .name }}
+                    name: {{ $fullname }}
                     optional: false
               resources:
-                {{- toYaml .resources | nindent 16 }}
-{{- end -}}
+                {{- toYaml $defaults.resources | nindent 16 }}
+{{- end }}

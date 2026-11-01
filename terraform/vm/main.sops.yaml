@@ -1,0 +1,30 @@
+ansible_ssh_private_key: ENC[AES256_GCM,data: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,iv:0pt7ZFkuDUE0zbQuyCESz8nS+p7HqHHIa6dk/nqD6TE=,tag:FbFEyDgV3LU+wtDRNc/Piw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2026-10-31T23:52:19Z"
+    mac: ENC[AES256_GCM,data:ng6jZwFLQDoqimpmzOX04y7mFtLaN5K8obYrAystijLosIlP0zIByLDKoFGUlWNlP5fK9yBTfOBXN+Q4mhzr4PoU0bIfXwM6HFARyzNEMMKv4FGA1lpOvhKV5Cv0nZLUDtWHj09IZu7wE3YAoS2IsLU+SyPPNR7r8zf28RBN0i0=,iv:ZJfMyhiUC+hLac+ATuLHDP/j5Bs+rc4OpguhHbUaaOQ=,tag:0uAaUpUD+V+dExgQcqqqZA==,type:str]
+    pgp:
+        - created_at: "2024-04-27T12:07:47Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQGMA+f+K9UQlkKAAQv8CoTZ+TZPqqXW0+VdmFwrzSxfpG9sFazlbnd7KCC8gOF9
+            d6tnFIPqdDdf0+F7GVS7kxmDLYm5lWExn9lCXwwkCtCOXKLWjgjCreBq3JNC3Elf
+            Sga8gYS6C4bloNOKkMYpH2NGnmradp1f8F4vOWR8dSCLq+RPe+JXhyTPjLmb4Bzv
+            sRBf55qFq/mNXBm+qfn0NYLIWDg24FslbLftLSGHYpVEU+hamqGmyNMZmBrShJ+7
+            E5ePinqd4Zh39u8KMkZlwWXK89RiDysh0cZqVwdx1UhQx3OwYDuJgi/ZXGr5szWV
+            zIWV6lrNUFeA1j3SQSUZh4MYK4IMLWyKu3thFuJl60Vsfc2pIV3O6jaadlYkiXSh
+            zBjunhFMSTCrb2j8dgH83T7efaoPhoOcakIojbcMQs01IYYqf28s50jYsmiNO5uR
+            7xv/AKgJTkVj9pDfNrGGwncG0i761urEDjj1AZ4j1STyMLjg3tnySuW0NnZANIhM
+            qtxRyY65nc19s0LxCKzl0l4BuWTOGDYTLFpNwd4EE/J+LDcu2YFCMG057siXEsfx
+            Jju8vjiUcwII5+6ISyvOOYzUYDn22eNuovWQH8Rgw/b1j93S//I5f+Iy8TwisQ77
+            9Naih7Y0uCYs5O0Fusk+
+            =sati
+            -----END PGP MESSAGE-----
+          fp: 9125EDE3ED604357F4370A817AB13B28EC9CD011
+    unencrypted_suffix: _unencrypted
+    version: 3.8.1

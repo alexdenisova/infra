@@ -1,6 +1,7 @@
 """
 Ansible Terraform inventory plugin
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -17,16 +18,17 @@ from typing import Any, Callable, Dict, Iterator, List, Optional, Tuple, Union
 from ansible.errors import AnsibleParserError, AnsiblePluginError
 from ansible.inventory.data import InventoryData
 from ansible.parsing.dataloader import DataLoader
-from ansible.plugins.inventory import BaseInventoryPlugin, Cacheable
 from ansible.utils.display import Display
 from pydantic import BaseModel
+
+from ansible.plugins.inventory import BaseInventoryPlugin, Cacheable
 
 DOCUMENTATION = """
 ---
 name: terraform
 plugin_type: inventory
 requirements:
-  - pydantic >= 1.8
+  - pydantic >= 2.0
 extends_documentation_fragment:
   - inventory_cache
 short_description: Terraform logical inventory plugin
@@ -81,7 +83,7 @@ class InventoryModule(BaseInventoryPlugin, Cacheable):
         self.set_options()
         tf_directory = Path(path).resolve(strict=True).parent
         model = self._get_inventory_model(tf_directory, cache)
-        self.DISPLAY.vvvv(f"parsed terraform state: {model.json()}")
+        self.DISPLAY.vvvv(f"parsed terraform state: {model.model_dump_json()}")
         model.apply(inventory, loader)
 
     def _skip_file(self, path: str) -> bool:
@@ -112,7 +114,7 @@ class InventoryModule(BaseInventoryPlugin, Cacheable):
         if result is None:
             result = self._read_inventory_model(state)
         if cache_needs_update:
-            self._cache[cache_key] = result.dict()
+            self._cache[cache_key] = result.model_dump()
 
         return result
 
@@ -123,7 +125,7 @@ class InventoryModule(BaseInventoryPlugin, Cacheable):
         raw_cache = self._cache.get(cache_key)
         if not raw_cache:
             return result
-        cached_result = AnsibleInventoryModel.parse_obj(raw_cache)
+        cached_result = AnsibleInventoryModel.model_validate(raw_cache)
         if cached_result.state_id and cached_result.state_id == state_id:
             result = cached_result
         return result

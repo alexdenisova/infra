@@ -20,32 +20,32 @@ install:
   poetry install --no-interaction --no-root --sync
   poetry run ansible-galaxy install -r ansible/requirements.yml
 
-decrypt_state:
-  cd "terraform/" && \
+decrypt_state STACK:
+  cd "terraform/{{ STACK }}" && \
   sops -d {{ tfstate_sops_file }} > terraform.tfstate
 
-encrypt_state:
-  cd "terraform/" && \
+encrypt_state STACK:
+  cd "terraform/{{ STACK }}" && \
   cp terraform.tfstate terraform.json && \
   sops -e terraform.json > {{ tfstate_sops_file }} && \
   rm -f terraform.json terraform.tfstate*
 
-output *OPTS: decrypt_state
-  cd "terraform/" && \
+output STACK *OPTS: (decrypt_state STACK)
+  cd "terraform/{{ STACK }}" && \
   terragrunt output {{ OPTS }}
 
-apply *OPTS: decrypt_state && encrypt_state
-  cd "terraform/" && \
+apply STACK *OPTS: (decrypt_state STACK) && (encrypt_state STACK)
+  cd "terraform/{{ STACK }}" && \
   terragrunt apply {{ OPTS }} || true
 
-init *OPTS:
-  cd "terraform/" && terragrunt init {{ OPTS }}
+init STACK *OPTS:
+  cd "terraform/{{ STACK }}" && terragrunt init -upgrade {{ OPTS }}
 
-play *OPTS: decrypt_state
-  poetry run ansible-playbook -i "terraform/" {{ OPTS }} "ansible/plays/vm.yml"
+play *OPTS: (decrypt_state "vm")
+  poetry run ansible-playbook -i "terraform/vm/main.tf" {{ OPTS }} "ansible/plays/vm.yml"
 
-console *OPTS: decrypt_state
-  poetry run ansible-console -i "terraform/" {{ OPTS }}
+console *OPTS: (decrypt_state "vm")
+  poetry run ansible-console -i "terraform/vm/main.tf" {{ OPTS }}
 
 new-role NAME:
   poetry run ansible-galaxy init "ansible/roles/{{ NAME }}"
@@ -54,7 +54,7 @@ do *OPTS:
   {{ OPTS }}
 
 helm *OPTS:
-  @helm --kubeconfig terraform/files/generated.kubeconfig {{ OPTS }}
+  @helm --kubeconfig terraform/k8s/files/generated.kubeconfig {{ OPTS }}
 
 kubectl *OPTS:
-  @kubectl --kubeconfig terraform/files/generated.kubeconfig {{ OPTS }}
+  @kubectl --kubeconfig terraform/k8s/files/generated.kubeconfig {{ OPTS }}

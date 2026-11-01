@@ -1,11 +1,15 @@
 variable "name" {
-  type = string
+  type    = string
   default = "ingress-nginx"
 }
 
 variable "namespace" {
-  type = string
+  type    = string
   default = "ingress-nginx"
+}
+
+variable "external_ip" {
+  type = string
 }
 
 variable "ingress_class" {

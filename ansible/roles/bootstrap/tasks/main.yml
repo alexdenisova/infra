@@ -5,10 +5,12 @@
   block:
     - name: Mount disk
       ansible.builtin.import_tasks: mount_disk.yml
+      when: bootstrap__mount_disk
     - name: Install packages
       ansible.builtin.apt:
-        name: "{{ item }}"
+        name: "{{ bootstrap__default_packages + bootstrap__apt_packages }}"
         state: present
-      loop: "{{ bootstrap__default_packages + bootstrap__apt_packages }}"
+        update_cache: true
+        cache_valid_time: 3600
     - name: Configure firewall
       ansible.builtin.import_tasks: firewall.yml

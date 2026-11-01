@@ -9,3 +9,13 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+
+{{/*
+Name of a single backup's resources. CronJob names are limited to 52 characters.
+Usage: include "postgres-backuper.fullname" (list $ $name)
+*/}}
+{{- define "postgres-backuper.fullname" -}}
+{{- $root := index . 0 -}}
+{{- $name := index . 1 -}}
+{{- printf "%s-%s" $root.Values.postgresBackuper.name $name | trunc 52 | trimSuffix "-" -}}
+{{- end }}

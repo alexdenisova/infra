@@ -18,7 +18,7 @@
         pvs:
           - "{{ bootstrap__mount_partition }}"
         state: present
-    - name: Extend {{ bootstrap__mount_lv }} lvol
+    - name: Extend lvol {{ bootstrap__mount_lv }}
       community.general.lvol:
         vg: LVG1
         lv: "{{ bootstrap__mount_lv }}"
@@ -34,7 +34,7 @@
         path: "{{ bootstrap__mount_path }}"
         owner: root
         group: root
-        mode: 0755
+        mode: "0755"
         state: directory
     - name: Mount up device
       ansible.posix.mount:

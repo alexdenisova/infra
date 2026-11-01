@@ -94,13 +94,15 @@ Type `just --list` to see the commands.
 ## Repo structure
 
 - [`ansible`](ansible/) - project-specific Ansible objects
-  - [`inventories`](ansible/inventories/) - Ansible inventories (deprecated, inventory is currently configured with Terraform).
   - [`plays`](ansible/plays/) - Ansible playbooks
   - [`plugins`](ansible/plugins/) - Ansible plugins
   - [`roles`](ansible/roles/) - Ansible roles
 - [`docker`](docker/) - docker images
 - [`modules`](modules/) - Terraform modules
-- [`terraform`](terraform/) - infrastructure objects described with [Hashicorp Configuration Language (HCL)](https://www.terraform.io/language/syntax/configuration)
+- [`terraform`](terraform/) - infrastructure objects described with [Hashicorp Configuration Language (HCL)](https://www.terraform.io/language/syntax/configuration), split into stacks with separate states (`just apply <stack>`)
+  - [`vm`](terraform/vm/) - Ansible inventory, read by the inventory plugin in `just play`
+  - [`k8s`](terraform/k8s/) - Kubernetes workloads; needs the cluster set up by `just play` first
+  - [`main.sops.yaml`](terraform/main.sops.yaml) - secrets shared by all stacks
 - [`.sops.yaml`](.sops.yaml) - sops config
 - [`justfile`](justfile) - justfile for command simplification
-- [`terragrunt.hcl`](terragrunt.hcl) - terragrunt config
+- [`terragrunt.hcl`](terragrunt.hcl) - terragrunt config shared by all stacks

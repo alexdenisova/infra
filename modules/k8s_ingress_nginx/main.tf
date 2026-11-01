@@ -2,11 +2,11 @@ terraform {
   required_providers {
     helm = {
       source  = "hashicorp/helm"
-      version = "2.13.1"
+      version = "~> 2.13"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.29.0"
+      version = "~> 2.29"
     }
   }
 }
@@ -23,7 +23,7 @@ resource "helm_release" "ingress_nginx" {
   repository      = "https://kubernetes.github.io/ingress-nginx"
   chart           = "ingress-nginx"
   version         = "4.10.0"
-  namespace       = var.namespace
+  namespace       = kubernetes_namespace.ingress_nginx.metadata[0].name
   atomic          = true
   cleanup_on_fail = true
   values = [
@@ -42,16 +42,14 @@ resource "helm_release" "ingress_nginx" {
         }
         kind = "DaemonSet"
         service = {
-          enabled = true
-          type    = ""
+          enabled     = true
+          type        = "LoadBalancer"
+          externalIPs = [var.external_ip]
         }
         config = {
           proxy-buffer-size = "20k"
         }
       }
     })
-  ]
-  depends_on = [
-    kubernetes_namespace.ingress_nginx
   ]
 }

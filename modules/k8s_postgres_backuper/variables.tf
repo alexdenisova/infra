@@ -8,22 +8,23 @@ variable "registry_secret" {
   sensitive = true
 }
 
-variable "schedule" {
-  type    = string
-  default = "0,12 * * * *"
-}
-
 variable "git_email" {
-  type    = string
-  default = "alexadenisova@gmail.com"
+  type = string
 }
 
 variable "github_repo_url" {
-  type      = string
-  sensitive = true
+  description = "Default repository to push backups to"
+  type        = string
+  sensitive   = true
 }
 
-variable "postgres_url" {
-  type      = string
+variable "backups" {
+  description = "Databases to back up, keyed by name. The dump is saved to <name>/backup.sql unless backup_path is set."
+  type = map(object({
+    postgres_url    = string
+    schedule        = optional(string, "0 0 * * *")
+    backup_path     = optional(string)
+    github_repo_url = optional(string)
+  }))
   sensitive = true
 }

@@ -11,20 +11,26 @@
       community.general.snap:
         name: microk8s
         classic: true
-        channel: '1.28/stable'
+        channel: "{{ microk8s__channel }}"
         state: present
     - name: Add users to microk8s group
       ansible.builtin.user:
         name: "{{ item }}"
         groups: "microk8s"
-        append: yes
+        append: true
       loop: "{{ microk8s__users }}"
     - name: Add public ip to allowed
       ansible.builtin.lineinfile:
         dest: /var/snap/microk8s/current/certs/csr.conf.template
+        regexp: '^IP\.3 = '
         insertafter: "#MOREIPS"
-        line: "IP.3 = {{ inventory_hostname  }}"
+        line: "IP.3 = {{ inventory_hostname }}"
       notify: Reload microk8s certs
+    - name: Wait to be ready
+      ansible.builtin.command: /snap/bin/microk8s status --wait-ready
+      changed_when: false
     - name: Enable addons
-      ansible.builtin.shell: /snap/bin/microk8s enable {{ item }}
+      ansible.builtin.command: /snap/bin/microk8s enable {{ item }}
+      register: microk8s__enable_result
+      changed_when: "'already enabled' not in microk8s__enable_result.stdout"
       loop: "{{ microk8s__default_addons + microk8s__addons }}"

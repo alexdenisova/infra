@@ -22,6 +22,5 @@ variable "certificates" {
 }
 
 variable "acme_email" {
-  type    = string
-  default = "alexadenisova@gmail.com"
+  type = string
 }

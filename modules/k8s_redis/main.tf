@@ -2,15 +2,15 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
+      version = "~> 3.5"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.13.1"
+      version = "~> 2.13"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.29.0"
+      version = "~> 2.29"
     }
   }
 }
@@ -29,10 +29,10 @@ resource "random_password" "redis_password" {
 
 resource "helm_release" "redis" {
   name       = "redis"
-  repository = "https://charts.bitnami.com/bitnami"
+  repository = "oci://registry-1.docker.io/bitnamicharts"
   chart      = "redis"
-  version    = "17.3.18"
-  namespace  = var.namespace
+  version    = "28.3.10"
+  namespace  = kubernetes_namespace.namespace.metadata[0].name
   atomic     = true
   lint       = true
   values = [
@@ -40,10 +40,14 @@ resource "helm_release" "redis" {
       {
         global = {
           redis = {
-            password = resource.random_password.redis_password.result
+            password = random_password.redis_password.result
           }
         }
         architecture = "standalone"
+        image = {
+          repository = "bitnamilegacy/redis"
+          tag        = var.redis_version
+        }
         master = {
           resources = {
             limits = {
@@ -74,9 +78,5 @@ resource "helm_release" "redis" {
         }
       }
     )
-  ]
-  depends_on = [
-    kubernetes_namespace.namespace,
-    random_password.redis_password
   ]
 }

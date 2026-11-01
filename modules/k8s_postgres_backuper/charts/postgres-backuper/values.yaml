@@ -3,9 +3,10 @@ registry_secret:
   name: registrypullsecret
   data: ""
 
+# Defaults shared by every backup
 postgresBackuper:
   name: postgres-backuper
-  schedule: 0,12 * * * *
+  schedule: "0 0 * * *"
   annotations: {}
   resources:
     limits:
@@ -19,10 +20,18 @@ postgresBackuper:
     pullPolicy: IfNotPresent
     tag: 16-alpine
   env:
-    PB__BACKUP_PATH: pantry-tracker/backup.sql
     PB__GIT_EMAIL: ""
     PB__GIT_NAME: "Postgres Backuper"
-    PB__GIT_COMMIT_MSG: "Postgres Backup"
   secretValues:
     PB__GITHUB_REPO_URL: ""
-    PB__DB_URL: ""
+
+# One CronJob per entry, named <postgresBackuper.name>-<key>.
+# PB__BACKUP_PATH defaults to <key>/backup.sql, PB__GIT_COMMIT_MSG to "Postgres Backup: <key>".
+# Each entry may override schedule, env and secretValues; secretValues.PB__DB_URL is required.
+backups: {}
+#  pantry-tracker:
+#    schedule: "0 0 * * *"
+#    env:
+#      PB__BACKUP_PATH: pantry-tracker/backup.sql
+#    secretValues:
+#      PB__DB_URL: postgresql://user:pass@host:5432/db

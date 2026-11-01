@@ -3,7 +3,11 @@
 bootstrap__apt_packages: []
 # Extra open TCP ports
 bootstrap__allow_tcp_ports: []
+# Extra open UDP ports
+bootstrap__allow_udp_ports: []
 
+# Whether a disk needs to be mounted
+bootstrap__mount_disk: false
 # Path to mount disk to
 bootstrap__mount_path: /var/snap
 # Disk name to mount

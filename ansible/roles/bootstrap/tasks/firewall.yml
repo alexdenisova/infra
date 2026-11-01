@@ -5,9 +5,9 @@
       ansible.builtin.apt:
         name: ufw
         state: present
-    - name: Deny everything and disable UFW
+    - name: Deny incoming by default
       community.general.ufw:
-        state: disabled
+        direction: incoming
         policy: deny
     - name: Limit ssh
       community.general.ufw:
@@ -19,7 +19,13 @@
         rule: allow
         port: "{{ item }}"
         proto: tcp
-      loop: "{{ bootstrap__default_tcp_ports + bootstrap__allow_tcp_ports}}"
+      loop: "{{ bootstrap__default_tcp_ports + bootstrap__allow_tcp_ports }}"
+    - name: Allow udp ports
+      community.general.ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: udp
+      loop: "{{ bootstrap__allow_udp_ports }}"
     - name: Enable UFW
       community.general.ufw:
         state: enabled
